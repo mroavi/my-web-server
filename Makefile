@@ -8,7 +8,7 @@
 OUTPUT_TYPE=ota
 
 #SPI flash size, in K
-ESP_SPI_FLASH_SIZE_K=1024
+ESP_SPI_FLASH_SIZE_K=4096
 #0: QIO, 1: QOUT, 2: DIO, 3: DOUT
 ESP_FLASH_MODE=0
 #0: 40MHz, 1: 26MHz, 2: 20MHz, 15: 80MHz
@@ -28,14 +28,14 @@ FW_BASE		= firmware
 
 # Base directory for the compiler. Needs a / at the end; if not set it'll use the tools that are in
 # the PATH.
-XTENSA_TOOLS_ROOT ?= 
+XTENSA_TOOLS_ROOT ?= /opt/esp-open-sdk/xtensa-lx106-elf/bin/
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= /opt/Espressif/ESP8266_SDK
+SDK_BASE	?= /opt/esp-open-sdk/esp_iot_sdk_v1.5.2
 
 # Opensdk patches stdint.h when compiled with an internal SDK. If you run into compile problems pertaining to
 # redefinition of int types, try setting this to 'yes'.
-USE_OPENSDK?=no
+USE_OPENSDK?=yes
 
 #Esptool.py path and port
 ESPTOOL		?= esptool.py
