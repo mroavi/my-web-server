@@ -27,6 +27,7 @@ some pictures of cats.
 #include "webpages-espfs.h"
 #include "cgiwebsocket.h"
 #include "cgi-test.h"
+#include "user_interface.h"
 
 //The example can print out the heap use every 3 seconds. You can use this to catch memory leaks.
 //#define SHOW_HEAP_USE
@@ -165,6 +166,14 @@ static void ICACHE_FLASH_ATTR prHeapTimerCb(void *arg) {
 
 //Main routine. Initialize stdout, the I/O, filesystem and the webserver and we're done.
 void user_init(void) {
+
+	/* to connect to this web server from a host outside the domain:
+	 * ssh -L 8000:IP_ADDR pi@mroavi.ddns.net
+	 *
+	 * In browser:
+	 * http://localhost:8000/index.tpl
+	 */
+
 	stdoutInit();
 	ioInit();
 	captdnsInit();
@@ -185,6 +194,24 @@ void user_init(void) {
 	os_timer_disarm(&websockTimer);
 	os_timer_setfn(&websockTimer, websockTimerCb, NULL);
 	os_timer_arm(&websockTimer, 1000, 1);
+
+	/***** mrv *****/
+
+	struct station_config stconf;
+
+	wifi_set_opmode(STATION_MODE);
+
+	wifi_station_get_config_default(&stconf);
+
+	os_strncpy((char*) stconf.ssid, "TP-LINK_2.4GHz_FC2E51", 32);
+	os_strncpy((char*) stconf.password, "tonytony", 64);
+
+	stconf.bssid_set = 0;
+	wifi_station_set_config(&stconf);
+
+	/***** mrv *****/
+
+
 	os_printf("\nReady\n");
 }
 
